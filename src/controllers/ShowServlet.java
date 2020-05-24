@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import models.Task;
 import utils.DBUtil;
 
-
 /**
  * Servlet implementation class ShowServlet
  */
@@ -32,16 +31,15 @@ public class ShowServlet extends HttpServlet {
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         // TODO Auto-generated method stub
         EntityManager em = DBUtil.createEntityManager();
 
-        // 該当のIDのメッセージ1件のみをデータベースから取得
         Task t = em.find(Task.class, Integer.parseInt(request.getParameter("id")));
 
         em.close();
 
-        // メッセージデータをリクエストスコープにセットしてshow.jspを呼び出す
         request.setAttribute("task", t);
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/tasks/show.jsp");

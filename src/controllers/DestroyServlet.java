@@ -30,27 +30,24 @@ public class DestroyServlet extends HttpServlet {
     /**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         // TODO Auto-generated method stub
-        String _token = (String)request.getParameter("_token");
-        if(_token != null && _token.equals(request.getSession().getId())) {
+        String _token = (String) request.getParameter("_token");
+
+        if (_token != null && _token.equals(request.getSession().getId())) {
             EntityManager em = DBUtil.createEntityManager();
 
-            // セッションスコープからメッセージのIDを取得して
-            // 該当のIDのメッセージ1件のみをデータベースから取得
-            Task t = em.find(Task.class, (Integer)(request.getSession().getAttribute("task_id")));
+            Task t = em.find(Task.class, (Integer) (request.getSession().getAttribute("task_id")));
 
             em.getTransaction().begin();
-            em.remove(t);       // データ削除
+            em.remove(t);
             em.getTransaction().commit();
             em.close();
 
-            // セッションスコープ上の不要になったデータを削除
             request.getSession().removeAttribute("task_id");
 
-            // indexページへリダイレクト
             response.sendRedirect(request.getContextPath() + "/index");
-    }
-
+        }
     }
 }

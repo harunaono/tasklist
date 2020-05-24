@@ -29,15 +29,15 @@ public class NewServlet extends HttpServlet {
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         // TODO Auto-generated method stub
-     // CSRFセキュリティ対策
+
         request.setAttribute("_token", request.getSession().getId());
 
-        // おまじないとしてのインスタンスを生成
         request.setAttribute("task", new Task());
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/tasks/new.jsp");
         rd.forward(request, response);
-     }
+    }
 }
